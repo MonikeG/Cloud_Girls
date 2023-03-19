@@ -1,0 +1,72 @@
+<!--Create a simple web page that displays a random quote every time the user clicks a button. 
+The quotes should be stored in an array in your JavaScript code.-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quote Generator</title>
+</head>
+<body>
+    <h1>Quote Generator</h1>
+    <label for=""mood">Enter your mood:</label>
+    
+    <input type="text" id="mood">
+
+    <button onclick="generateQuote()">Generate Quote</button>
+	<p id="quote"></p>    
+    <text> if you need a happy quote type "happy"<br>
+    if you need a motivational quote type "motivated"<br>
+    if you need a inspire quote type "inspired"</text>
+
+<script>
+
+
+    const happyQuotes = ["The most important thing is to enjoy your life - to be happy - it's all that matters. - Audrey Hepburn",
+    "Happiness is not something ready made. It comes from your own actions.- Dalai Lama",
+    "The best way to cheer yourself up is to try to cheer somebody else up. - Mark Twain",
+    "Happiness is a warm puppy. - Charles M. Schulz",
+    "It's a helluva start, being able to recognize what makes you happy. - Lucille Ball"
+    ];
+    
+    const motivateQuotes =["Success is not final, failure is not fatal: it is the courage to continue that counts. - Winston Churchill",
+    "Believe you can and you're halfway there. - Theodore Roosevelt",
+    "It does not matter how slowly you go as long as you do not stop. - Confucius",
+    "Don't watch the clock; do what it does. Keep going. - Sam Levenson",
+    "You are never too old to set another goal or to dream a new dream. - C.S. Lewis"
+  ];
+
+    const inspireQuotes =["You miss 100% of the shots you don't take. - Wayne Gretzky",
+    "You can't build a reputation on what you are going to do. - Henry Ford",
+    "Success is stumbling from failure to failure with no loss of enthusiasm. - Winston Churchill",
+    "The only way to do great work is to love what you do. - Steve Jobs",
+    "The biggest risk is not taking any risk. In a world that's changing really quickly, the only strategy that is guaranteed to fail is not taking risks. - Mark Zuckerberg"
+    ];
+
+
+    function generateQuote(){
+        const mood = document.getElementById("mood").value.trim().toLowerCase();
+        let quotes = [];
+
+
+        if(mood === "happy"){
+            quotes = happyQuotes
+         }
+
+         if(mood === "motivated"){
+            quotes = motivateQuotes
+         }
+
+         if(mood == "inspired"){
+            quotes = inspireQuotes
+         }
+        
+        const randomIndex = Math.floor(Math.random() * quotes.length);
+        const quote = quotes[randomIndex];
+
+        document.getElementById("quote").innerHTML = quote;
+
+        }
+    </script>
+</body>
+</html>
