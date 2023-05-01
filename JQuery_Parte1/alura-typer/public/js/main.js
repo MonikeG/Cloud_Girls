@@ -6,7 +6,9 @@ $(function(){
     atualizaTamanhoFrase();
     inicializaContadores();
     inicializaCronometro();
+    inicializaMarcadores();
     $("#botao-reiniciar").click(reiniciaJogo);
+    atualizaPlacar();
 });
 
 
@@ -40,9 +42,10 @@ function inicializaContadores(){
 
 // quando o usuário entrar no campo iniciar o contador usando o evento focus para identificar que o campo está sendo usado
 function inicializaCronometro(){
-    var tempoRestante = $("#tempo-digitacao").text();
+    
     //troca função on por one para que a cada clique não gere um evento no contador
     campo.one("focus", function(){
+        var tempoRestante = $("#tempo-digitacao").text();
         $("botao-reiniciar").attr("disabled", true);
         var cronometroID = setInterval(function(){
             tempoRestante--;
@@ -50,13 +53,23 @@ function inicializaCronometro(){
             $("#tempo-digitacao").text(tempoRestante)
             //mudar atributo de um campo
             if(tempoRestante < 1){
-                campo.attr("disabled", true);
+
                 //para o contador parar de funcionar 
                 clearInterval(cronometroID);
-                $("#botao-reiniciar").attr("disabled", false);
+                
+                // Nova função para deixar o código mais organizado
+                //campo.attr("disabled", true);
+                //campo.toggleClass("campo-desativado");
+                //inserePlacar();
             }
         },1000);
     });
+}
+
+function finalizaJogo() {
+    campo.attr("disabled", true);
+    campo.toggleClass("campo-desativado");
+    inserePlacar();
 }
 
 // botão reiniciar
@@ -67,4 +80,34 @@ function reiniciaJogo(){
         $("#contador-caracteres").text("0");
         $("#tempo-digitacao").text(tempoInicial);
         inicializaCronometro();
-    }
+        campo.toggleClass("campo-desativado");
+        campo.removeClass("borda-vermelha"); //novo
+        campo.removeClass("borda-verde"); //novo
+}
+
+function inicializaMarcadores() {
+    
+    campo.on("input", function() {
+        var frase = $(".frase").text();
+        var digitado = campo.val();
+        var comparavel = frase.substr(0 , digitado.length);
+
+        if(digitado == comparavel) {
+            campo.addClass("borda-verde");
+            campo.removeClass("borda-vermelha");
+        } else {
+            campo.addClass("borda-vermelha");
+            campo.removeClass("borda-verde");
+        }
+    });
+}
+
+function atualizaTempoInicial(tempo) {
+    tempoInicial = tempo;
+    $("#tempo-digitacao").text(tempo);
+}
+
+//função de inserir placar na tabela
+//A função .find() recebe como parâmetro seletores CSS e busca em seus filhos algum elemento que atenda aquela busca
+
+// funções de placar no arquivo placar.js
